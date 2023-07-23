@@ -7,6 +7,7 @@ const auth = require('../middleware/auth');
 const userController = require('../controllers/User/signup');
 const userControllerLogin = require('../controllers/User/login');
 const {getUser,updateUser}=require("../controllers/User/userController")
+const {recoverPassword}=require("../controllers/User/recoverPassword")
 
 
 
@@ -24,6 +25,7 @@ router.get('facebook/login/callback',userControllerLogin.facebookLoginCallback);
 router.post('/register', userController.registerUser);
 router.post('/verify', userController.verifyUser);
 router.post('/login',userControllerLogin.loginUser);
+router.post('/recover',recoverPassword);
 
 
 //  DATA GETTING
