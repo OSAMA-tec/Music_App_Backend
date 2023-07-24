@@ -14,6 +14,15 @@ const TrackSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Album',
     },
+    likes: {
+		type: Map,
+		of: Number,
+	},
+    coverImage: {
+		type: String,
+		required: true,
+		default:""
+    	},
     duration: {
         type: Number,
         required: true,
@@ -22,6 +31,10 @@ const TrackSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    audioFile:{
+        type: String,
+        required: true
+     },
 });
 
 module.exports = mongoose.model('Track', TrackSchema);

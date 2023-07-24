@@ -3,14 +3,17 @@ const mongoose = require('mongoose');
 const passport = require('passport');
 const session = require('express-session');
 const cors = require('cors');
-const userRoutes = require('./routes/userRoutes');
 const connectDB=require('./config/db')
 require('dotenv').config();
 const app = express();
 
+const userRoutes = require('./routes/userRoutes');
+const artistRoutes = require('./routes/artistRoutes');
+const trackRoutes = require('./controllers/Tracks/createTrack');
+const getTracks = require('./routes/trackRoutes');
+
 // Connect to MongoDB
 connectDB();
-
 // Middleware
 app.use(cors());
 app.use(express.json());
@@ -29,6 +32,9 @@ app.use(passport.session());
 
 // User routes
 app.use('/api/users', userRoutes);
+app.use('/api/artists', artistRoutes);
+app.use('/api', trackRoutes);
+app.use('/api', getTracks);
 
 const PORT = process.env.PORT || 5000;
 

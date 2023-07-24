@@ -3,9 +3,6 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const passport = require('passport');
 
-
-
-
 const recoverPassword = async (req, res) => {
     try {
         const { email } = req.body
@@ -76,12 +73,9 @@ const recoverPassword = async (req, res) => {
       .catch((error) => {
         console.error(error);
       })
-
     } catch (err) {
         console.error(err.message);
         res.status(500).send('Server Error');
     }
 }
-
-
-module.exports={recoverPassword}
+module.exports={recoverPassword};

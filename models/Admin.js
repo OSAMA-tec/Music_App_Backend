@@ -1,14 +1,14 @@
 const mongoose = require('mongoose');
 
-const ArtistSchema = new mongoose.Schema({
+const AdminSchema = new mongoose.Schema({
     name: {
+        type: String,
+    },
+    bio: {
         type: String,
     },
     userId:{
         type:String,
-    },
-    bio: {
-        type: String,
     },
     genre: {
         type: String,
@@ -19,4 +19,4 @@ const ArtistSchema = new mongoose.Schema({
     }],
 });
 
-module.exports = mongoose.model('Artist', ArtistSchema);
+module.exports = mongoose.model('Admin', AdminSchema);

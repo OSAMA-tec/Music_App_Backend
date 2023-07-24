@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const ArtistSchema = new mongoose.Schema({
+const ManagerSchema = new mongoose.Schema({
     name: {
         type: String,
     },
@@ -19,4 +19,4 @@ const ArtistSchema = new mongoose.Schema({
     }],
 });
 
-module.exports = mongoose.model('Artist', ArtistSchema);
+module.exports = mongoose.model('Manager', ManagerSchema);

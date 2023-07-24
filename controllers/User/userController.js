@@ -1,7 +1,7 @@
 const User = require('../../models/User');
 const bcrypt = require('bcryptjs');
 var SibApiV3Sdk = require('sib-api-v3-sdk');
-getUser = async (req, res) => {
+const getUser = async (req, res) => {
     try {
         const user = await User.findById(req.user.id);
         if (!user || !user.local.verified) {
@@ -114,4 +114,25 @@ const updateUser = async (req, res) => {
     }
 };
 
-module.exports = { getUser, updateUser };
+
+
+const deleteUser=async (req,res)=>{
+    try{
+        const id = req.user.id;
+        const user = await User.findById(id);
+
+        // User not found
+        if (!user) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+
+        // Delete user
+        await User.deleteOne({ _id: id });
+        res.json({ message: 'User deleted successfully' });
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server error');
+    }
+}
+
+module.exports = { getUser, updateUser,deleteUser };

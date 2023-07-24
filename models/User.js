@@ -41,7 +41,7 @@ const UserSchema = new mongoose.Schema({
     },
     role: {
         type: String,
-        enum: ['listener', 'artist', 'admin'],
+        enum: ['listener', 'artist', 'admin','manager'],
         default: 'listener'
     },
     socialHandles: [String],
