@@ -1,15 +1,15 @@
-
-const express=require("express")
+const express = require("express")
 const multer = require('multer');
 const Track = require('../../models/Track');  
 const Artist = require('../../models/Artist');
 const admin = require('firebase-admin');
 const { v4: uuidv4 } = require('uuid');
 const path = require('path');
-const router=express.Router()
+const router = express.Router()
 const auth = require('../../middleware/auth'); 
 
-const upload = multer({ dest: 'uploads/' });
+// configure multer to use memoryStorage
+const upload = multer({ storage: multer.memoryStorage() });
 
 // Initialize Firebase
 const serviceAccount = require('../../musicapp-ce429-firebase-adminsdk-7emsl-03b36a5b72.json');
@@ -20,7 +20,7 @@ admin.initializeApp({
 
 const bucket = admin.storage().bucket();
 
-router.post('/tracks',auth, upload.fields([{ name: 'coverImage', maxCount: 1 }, { name: 'audioFile', maxCount: 1 }]), async (req, res) => {
+router.post('/tracks', auth, upload.fields([{ name: 'coverImage', maxCount: 1 }, { name: 'audioFile', maxCount: 1 }]), async (req, res) => {
     const { title,   duration } = req.body;
     if (!title ||  !duration ||  !req.files) {
         return res.status(400).json({
@@ -38,20 +38,32 @@ router.post('/tracks',auth, upload.fields([{ name: 'coverImage', maxCount: 1 }, 
     const artist=User._id;
     const genre=User.genre;
 
-
     try {
+        const coverImage = req.files.coverImage[0];
+        const audioFile = req.files.audioFile[0];
+
         const coverImageOptions = {
-            destination: `coverImages/${uuidv4()}${path.extname(req.files.coverImage[0].originalname)}`,
-            metadata: { contentType: req.files.coverImage[0].mimetype }
+            destination: `coverImages/${uuidv4()}${path.extname(coverImage.originalname)}`,
+            metadata: { contentType: coverImage.mimetype }
         };
         const audioFileOptions = {
-            destination: `audioFiles/${uuidv4()}${path.extname(req.files.audioFile[0].originalname)}`,
-            metadata: { contentType: req.files.audioFile[0].mimetype }
+            destination: `audioFiles/${uuidv4()}${path.extname(audioFile.originalname)}`,
+            metadata: { contentType: audioFile.mimetype }
         };
 
-        await bucket.upload(req.files.coverImage[0].path, coverImageOptions);
-        await bucket.upload(req.files.audioFile[0].path, audioFileOptions);
+        // Create write streams for the uploads to Firebase
+        const coverImageUpload = bucket.file(coverImageOptions.destination).createWriteStream({
+            metadata: coverImageOptions.metadata
+        });
+        const audioFileUpload = bucket.file(audioFileOptions.destination).createWriteStream({
+            metadata: audioFileOptions.metadata
+        });
 
+        // Upload the files to Firebase
+        coverImageUpload.end(coverImage.buffer);
+        audioFileUpload.end(audioFile.buffer);
+
+        // Get URLs for the uploaded files
         const coverImageUrls = await bucket.file(coverImageOptions.destination).getSignedUrl({
             action: 'read',
             expires: '03-01-2500'
