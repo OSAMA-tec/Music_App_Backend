@@ -15,7 +15,7 @@ const TrackSchema = new mongoose.Schema({
         ref: 'Album',
     },
     likes: {
-		type: Map,
+		type: [String],
 		of: Number,
 	},
     coverImage: {
