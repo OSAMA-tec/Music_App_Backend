@@ -3,19 +3,15 @@ const mongoose = require('mongoose');
 const ManagerSchema = new mongoose.Schema({
     name: {
         type: String,
+        required: true,
     },
-    userId:{
-        type:String,
-    },
-    bio: {
+    userId: {
         type: String,
+        required: true,
     },
-    genre: {
-        type: String,
-    },
-    albums: [{
+    artists: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Album'
+        ref: 'Artist'
     }],
 });
 
