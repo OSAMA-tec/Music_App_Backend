@@ -16,7 +16,7 @@ const AlbumSchema = new mongoose.Schema({
     },
     genre: {
         type: String,
-        required: true,
+        required: true
     },
     tracks: [{
         type: mongoose.Schema.Types.ObjectId,

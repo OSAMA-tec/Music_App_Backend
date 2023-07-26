@@ -11,6 +11,7 @@ const userRoutes = require('./routes/userRoutes');
 const artistRoutes = require('./routes/artistRoutes');
 const trackRoutes = require('./controllers/Tracks/createTrack');
 const getTracks = require('./routes/trackRoutes');
+const albumRoutes = require('./routes/albumRoutes');
 
 // Connect to MongoDB
 connectDB();
@@ -35,6 +36,7 @@ app.use('/api/users', userRoutes);
 app.use('/api/artists', artistRoutes);
 app.use('/api', trackRoutes);
 app.use('/api', getTracks);
+app.use('/api', albumRoutes);
 
 const PORT = process.env.PORT || 3000;
 
