@@ -1,40 +1,68 @@
-
 const Artist = require('../../models/Artist');
 const Album = require('../../models/Album');
 
 const createAlbum = async (req, res) => {
     const title = req.body.title;
-    const genre = req.body.title;
+    const genre = req.body.genre;
     const userId = req.user.id;
+
+    // Input validation
+    if (!title || !genre) {
+        return res.status(400).json({
+            success: false,
+            message: 'Title and genre are required',
+        });
+    }
+
     try {
         if (req.user.role !== 'artist') {
             return res.status(403).json({
                 success: false,
-                message: 'You are not authorized to delete this track',
+                message: 'You are not authorized to create an album',
             });
         }
+
         const artist = await Artist.findOne({ userId: userId });
-        const albumArtist = artist._id;
-        let currentDate = new Date().toLocaleDateString("en-US");
 
         if (!artist) {
             return res.status(400).json({
                 success: false,
-                message: 'User not Found',
+                message: 'User not found',
             });
         }
+
+        const albumArtist = artist._id;
+        let currentDate = new Date().toLocaleDateString("en-US");
+
         const newAlbum = new Album({
             title,
             genre,
             artist: albumArtist,
             releaseDate: currentDate,
-        })
+        });
+
         const savedAlbum = await newAlbum.save();
+
+        if (!savedAlbum) {
+            return res.status(500).json({
+                success: false,
+                message: 'An error occurred while saving the album',
+            });
+        }
+
         artist.albums.push(savedAlbum._id);
-        await artist.save();
+        const updatedArtist = await artist.save();
+
+        if (!updatedArtist) {
+            return res.status(500).json({
+                success: false,
+                message: 'An error occurred while updating the artist',
+            });
+        }
+
         return res.status(200).json({
             success: true,
-            message: 'Successfully creating the album',
+            message: 'Successfully created the album',
             Album: savedAlbum,
         });
     } catch (error) {
@@ -45,4 +73,5 @@ const createAlbum = async (req, res) => {
         });
     }
 }
+
 module.exports = { createAlbum };
