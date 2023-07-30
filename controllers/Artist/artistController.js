@@ -37,32 +37,36 @@ const putData = async (req, res) => {
     return res.status(500).json({
       success: false,
       message: 'An error occurred while updating data',
+      error: error.message,
     });
   }
 }
+
 const getData = async (req, res) => {
-    try {
-      const Id = req.user.id;
-      const user = await Artist.findOne({ userId: Id });
-  
-      if (!user) {
-        return res.status(404).json({
-          success: false,
-          message: 'User not found',
-        });
-      }  
-      return res.status(200).json({
-        success: true,
-        message: 'Data found successfully!',
-        user,
-      });
-    } catch (error) {
-      console.error(error);
-      return res.status(500).json({
+  try {
+    const Id = req.user.id;
+    const user = await Artist.findOne({ userId: Id });
+
+    if (!user) {
+      return res.status(404).json({
         success: false,
-        message: 'An error occurred while updating data',
+        message: 'User not found',
       });
     }
+
+    return res.status(200).json({
+      success: true,
+      message: 'Data found successfully!',
+      user,
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({
+      success: false,
+      message: 'An error occurred while retrieving data',
+      error: error.message,
+    });
   }
-  
-module.exports = { putData,getData };
+}
+
+module.exports = { putData, getData }
