@@ -117,6 +117,9 @@ exports.registerUser = async (req, res) => {
     let user = await User.findOne({ 'local.email': tempEmail });
     const verified = false;
     const otpCreatedAt = Date();
+    if(user.phoneNumber===phoneNumber){
+      return res.status(400).json({ msg: 'phoneNumber already exists' });
+    }
 
     if (user) {
       return res.status(400).json({ msg: 'User already exists' });
