@@ -9,6 +9,8 @@ const FacebookStrategy = require('passport-facebook').Strategy;
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const SibApiV3Sdk = require('sib-api-v3-sdk');
 const twilio = require('twilio');
+const moment = require('moment-timezone');
+
 require('dotenv').config();
 
 SibApiV3Sdk.ApiClient.instance.authentications['api-key'].apiKey = process.env.SENDINBLUE_API_KEY;
@@ -116,7 +118,12 @@ exports.registerUser = async (req, res) => {
   try {
     let user = await User.findOne({ 'local.email': tempEmail });
     const verified = false;
-    const otpCreatedAt = Date();
+     // Set the timezone you want to use
+     const timezone = 'Asia/Kolkata'; // Replace this with the desired timezone
+
+     // Use moment-timezone to set the otpCreatedAt value
+     const otpCreatedAt = moment().tz(timezone).toDate();
+    // const otpCreatedAt = Date();
    
     
     if (user) {
@@ -192,9 +199,13 @@ exports.verifyUser = async (req, res) => {
       return res.status(400).json({ msg: 'User does not exist' });
     }
 
+    const timezone = 'Asia/Kolkata'; // Replace this with the desired timezone
+
     // Check if OTP has expired
-    const otpLifetime = 12000000; // OTP lifetime in seconds
-    const otpAgeInSeconds = Math.floor((Date.now() - new Date(user.local.otpCreatedAt)) / 1000);
+    const otpLifetime = 60; // OTP lifetime in seconds
+    const otpCreatedAt = moment(user.local.otpCreatedAt).tz(timezone);
+    const currentTime = moment().tz(timezone);
+    const otpAgeInSeconds = currentTime.diff(otpCreatedAt, 'seconds');
     if (otpAgeInSeconds > otpLifetime) {
       user.local.tempNumber = null; // Clear the tempNumber field
       user.local.tempEmail = null; // Clear the tempNumber field
