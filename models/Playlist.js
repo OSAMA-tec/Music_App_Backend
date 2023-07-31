@@ -13,6 +13,10 @@ const PlaylistSchema = new mongoose.Schema({
     description: {
         type: String,
     },
+    likes: {
+		type: [String],
+		of: Number,
+	},
     tracks: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Track'

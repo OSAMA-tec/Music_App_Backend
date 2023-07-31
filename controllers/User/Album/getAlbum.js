@@ -1,6 +1,6 @@
-const Artist = require('../../models/Artist');
-const Album = require('../../models/Album');
-const Track = require('../../models/Track');
+const Artist = require('../../../models/Artist');
+const Album = require('../../../models/Album');
+const Track = require('../../../models/Track');
 
 const getAlbum = async (req, res) => {
   try {
@@ -42,17 +42,17 @@ const getAlbum = async (req, res) => {
   }
 };
 
-module.exports = { getAlbum };
 
 
 const specificAlbum=async (req,res)=>{
-  const name=req.params.name;
+  const albumId=req.params.albumId;
+  const userId=req.user.id;
   try {
     if (!Artist || !Album) {
       throw new Error('Required modules not found');
     }
 
-    const album = await Album.findOne({title:name}) .populate({
+    const album = await Album.findById(albumId) .populate({
       path: 'artist',
       select: 'name',
     })
@@ -68,11 +68,16 @@ const specificAlbum=async (req,res)=>{
         message: 'No Albums Found',
       });
     }
-    
+    const userLiked = album.likes.includes(userId);
+
     return res.status(200).json({
       success: true,
       message: 'Getting  Album',
-      album,
+      data :{
+        album:album,
+        totalLikes:album.likes.length,
+        like:userLiked,
+      },
     });
   } catch (error) {
     console.error(error);

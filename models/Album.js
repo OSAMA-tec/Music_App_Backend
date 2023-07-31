@@ -17,6 +17,10 @@ const AlbumSchema = new mongoose.Schema({
     picURL: {
         type: String,
     },
+    likes: {
+		type: [String],
+		of: Number,
+	},
     genre: {
         type: String,
         required: true

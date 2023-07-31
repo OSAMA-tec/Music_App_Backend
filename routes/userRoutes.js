@@ -10,8 +10,10 @@ const {getUser,updateUser,deleteUser}=require("../controllers/User/Profile/userC
 const {recoverPassword}=require("../controllers/User/Registration/recoverPassword")
 const {topArtist,getSpecific} = require('../controllers/User/Artist/topArtist');
 const {follow} = require('../controllers/User/Artist/follow');
-const {getAlbum,specificAlbum} = require('../controllers/Album/getAlbum');
-const {getTracks,searchTrack} = require('../controllers/User/Track/getTracks');
+const {getAlbum,specificAlbum} = require('../controllers/User/Album/getAlbum');
+const {likeAlbum} = require('../controllers/User/Album/likeAlbum');
+const {getTracks,searchTrack,specificTrack} = require('../controllers/User/Track/getTracks');
+const {likeTrack} = require('../controllers/User/Track/likeTrack');
 
 
 
@@ -49,7 +51,9 @@ router.put('/follow/:artistId', auth,follow);
 
 //Album Related
 router.get('/artist/album', auth,getAlbum)
-router.get('/artist/album/:name', auth,specificAlbum)
+router.get('/artist/album/:albumId', auth,specificAlbum)
+router.get('/artist/album/:albumId', auth,specificAlbum)
+router.put('/artist/album/like/:albumId', auth,likeAlbum)
 
 
 
@@ -57,5 +61,7 @@ router.get('/artist/album/:name', auth,specificAlbum)
 
 //Track Related
 router.get('/tracks', auth,getTracks);
-router.get('/tracks/search/:trackId', auth,searchTrack);
+router.get('/tracks/search/:name', auth,searchTrack);
+router.get('/tracks/:trackId', auth,specificTrack);
+router.put('/tracks/like/:trackId', auth,likeTrack);
 module.exports = router;
