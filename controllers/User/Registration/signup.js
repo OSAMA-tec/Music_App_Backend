@@ -89,7 +89,7 @@ exports.facebookAuthCallback = function (req, res, next) {
     };
     jwt.sign(payload, process.env.JWT_SECRET_User, { expiresIn: '5 days' }, (err, token) => {
       if (err) throw err;
-      res.json({ token,user });
+      res.json({ token, user });
     });
   })(req, res, next);
 };
@@ -104,7 +104,7 @@ exports.googleAuthCallback = function (req, res, next) {
     };
     jwt.sign(payload, process.env.JWT_SECRET_User, { expiresIn: '5 days' }, (err, token) => {
       if (err) throw err;
-      res.json({ token,user });
+      res.json({ token, user });
     });
   })(req, res, next);
 };
@@ -116,28 +116,31 @@ exports.registerUser = async (req, res) => {
   let email = '';
 
   try {
+    let userEmail = await User.deleteMany({ 'local.tempEmail': tempEmail });
+    let userPh = await User.deleteMany({ 'local.tempPhone': tempEmail });
     let user = await User.findOne({ 'local.email': tempEmail });
     const verified = false;
-     // Set the timezone you want to use
-     const timezone = 'Asia/Kolkata'; // Replace this with the desired timezone
+    // Set the timezone you want to use
+    const timezone = 'Asia/Kolkata'; // Replace this with the desired timezone
 
-     // Use moment-timezone to set the otpCreatedAt value
-     const otpCreatedAt = moment().tz(timezone).toDate();
+    // Use moment-timezone to set the otpCreatedAt value
+    const otpCreatedAt = moment().tz(timezone).toDate();
     // const otpCreatedAt = Date();
-   
-    
+
+
     if (user) {
       return res.status(400).json({ msg: 'User already exists' });
     }
     let userPhone = await User.findOne({ 'local.phoneNumber': phoneNumber });
-    if(userPhone){
+    if (userPhone) {
       return res.status(400).json({ msg: 'phoneNumber already exists' });
     }
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
     const otp = Math.floor(100000 + Math.random() * 900000);
-    const otpHash = await bcrypt.hash(otp.toString(), salt);
+    console.log(otp);
+    // const otpHash = await bcrypt.hash(otp.toString(), salt);
 
     user = new User({
       method: 'local',
@@ -146,7 +149,7 @@ exports.registerUser = async (req, res) => {
         verified,
         email,
         password: hashedPassword,
-        otp: otpHash,
+        otp: otp,
         otpCreatedAt,
         tempEmail,
         tempNumber: phoneNumber,
@@ -198,30 +201,14 @@ exports.verifyUser = async (req, res) => {
     if (!user) {
       return res.status(400).json({ msg: 'User does not exist' });
     }
-
-    // const timezone = 'Asia/Kolkata'; // Replace this with the desired timezone
-
-    // // Check if OTP has expired
-    // const otpLifetime = 60; // OTP lifetime in seconds
-    // const otpCreatedAt = moment(user.local.otpCreatedAt).tz(timezone);
-    // const currentTime = moment().tz(timezone);
-    // const otpAgeInSeconds = currentTime.diff(otpCreatedAt, 'seconds');
-    // if (otpAgeInSeconds > otpLifetime) {
-    //   user.local.tempNumber = null; // Clear the tempNumber field
-    //   user.local.tempEmail = null; // Clear the tempNumber field
-    //   user.local.otp = null; // Clear OTP
-    //   user.local.otpCreatedAt = null; // Clear OTP timestamp
-    //   await user.save();
-    //   return res.status(400).json({ msg: 'OTP has expired' });
-    // }
-
-    const check = await bcrypt.compare(otp.toString(), user.local.otp);
-    if (check) {
+    console.log(user.local.otp);
+    console.log(otp);
+    if (otp===user.local.otp) {
       user.local.email = user.local.tempEmail; // Update main email
       user.local.tempEmail = null; // Clear the tempEmail field
       user.local.phoneNumber = user.local.tempNumber;
-      user.local.tempNumber=null; // Clear the tempEmail field
-      
+      user.local.tempNumber = null; // Clear the tempEmail field
+
       user.local.verified = true;
       user.local.otp = null; // Clear OTP
       user.local.otpCreatedAt = null; // Clear OTP timestamp
