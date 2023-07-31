@@ -3,7 +3,7 @@ const Album = require('../../../models/Album');
 
 const likeAlbum = async (req, res) => {
   const userId = req.user.id;
-  const albumId = req.params.albumId;
+  const albumId = req.body.albumId;
   const { like } = req.body;
 
   if (like === undefined) {

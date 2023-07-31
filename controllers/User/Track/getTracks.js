@@ -39,13 +39,13 @@ const getTracks = async (req, res) => {
 const searchTrack = async (req, res) => {
     try {
         const Tracks = await Track.find().lean();
-        const searchName = req.params.name;
+        const searchName = req.body.name;
 
         if (!searchName) {
-            console.error('Params not found');
+            console.error('searchName not found');
             return res.status(400).json({
                 success: false,
-                message: 'Params not found',
+                message: 'SearchName not found',
             });
         }
 
@@ -85,14 +85,14 @@ const searchTrack = async (req, res) => {
 
 const specificTrack = async (req, res) => {
     try {
-      const trackId = req.params.trackId;
+      const trackId = req.body.trackId;
       const userId = req.user.id;
   
       if (!trackId) {
-        console.error("Params not found");
+        console.error("trackId not found");
         return res.status(400).json({
           success: false,
-          message: "Params not found",
+          message: "trackId not found",
         });
       }
   

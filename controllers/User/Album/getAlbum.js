@@ -45,7 +45,7 @@ const getAlbum = async (req, res) => {
 
 
 const specificAlbum=async (req,res)=>{
-  const albumId=req.params.albumId;
+  const albumId=req.body.albumId;
   const userId=req.user.id;
   try {
     if (!Artist || !Album) {

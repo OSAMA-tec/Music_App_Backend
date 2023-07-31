@@ -44,16 +44,16 @@ router.delete('/user', auth,deleteUser)
 
 //Artist Related
 router.get('/top-artists', auth,topArtist);
-router.get('/top-artists/:artistId', auth,getSpecific);
-router.put('/follow/:artistId', auth,follow);
+router.get('/top-artists', auth,getSpecific);
+router.put('/follow', auth,follow);
 
 
 
 //Album Related
 router.get('/artist/album', auth,getAlbum)
-router.get('/artist/album/:albumId', auth,specificAlbum)
-router.get('/artist/album/:albumId', auth,specificAlbum)
-router.put('/artist/album/like/:albumId', auth,likeAlbum)
+router.get('/artist/album', auth,specificAlbum)
+router.get('/artist/album', auth,specificAlbum)
+router.put('/artist/album/like', auth,likeAlbum)
 
 
 
@@ -61,7 +61,7 @@ router.put('/artist/album/like/:albumId', auth,likeAlbum)
 
 //Track Related
 router.get('/tracks', auth,getTracks);
-router.get('/tracks/search/:name', auth,searchTrack);
-router.get('/tracks/:trackId', auth,specificTrack);
-router.put('/tracks/like/:trackId', auth,likeTrack);
+router.get('/tracks/search', auth,searchTrack);
+router.get('/tracks', auth,specificTrack);
+router.put('/tracks/like', auth,likeTrack);
 module.exports = router;

@@ -4,7 +4,7 @@ const Track = require('../../models/Track');
 
 const updatePlaylist = async (req, res) => {
   const userId = req.user.id;
-  const name = req.params.name;
+  const name = req.body.name;
   const PlayList = req.body.playlist;
 
   // Check for missing input data

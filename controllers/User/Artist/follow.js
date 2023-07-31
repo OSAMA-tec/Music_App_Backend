@@ -4,7 +4,7 @@ const Artist=require('../../../models/Artist')
 const follow= async (req, res) => {
   const { follow } = req.body;
   const userId = req.user.id;
-  const artistId = req.params.artistId;
+  const artistId = req.body.artistId;
 
   if (follow === undefined) {
     return res.status(400).json({

@@ -38,7 +38,7 @@ const topArtist=async (req,res)=>{
 
 const getSpecific = async (req, res) => {
   const userId = req.user.id;
-  const artistId = req.params.artistId;
+  const artistId = req.body.artistId;
 
   try {
     const user = await User.findById(userId);

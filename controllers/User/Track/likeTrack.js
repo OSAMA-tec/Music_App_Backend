@@ -3,7 +3,7 @@ const Track = require('../../../models/Track');
 
 const likeTrack = async (req, res) => {
   const userId = req.user.id;
-  const trackId = req.params.trackId;
+  const trackId = req.body.trackId;
   const { like } = req.body;
 
   if (like === undefined) {
