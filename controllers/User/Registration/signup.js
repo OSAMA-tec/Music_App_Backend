@@ -193,7 +193,7 @@ exports.verifyUser = async (req, res) => {
     }
 
     // Check if OTP has expired
-    const otpLifetime = 60; // OTP lifetime in seconds
+    const otpLifetime = 120; // OTP lifetime in seconds
     const otpAgeInSeconds = Math.floor((Date.now() - new Date(user.local.otpCreatedAt)) / 1000);
     if (otpAgeInSeconds > otpLifetime) {
       user.local.tempNumber = null; // Clear the tempNumber field
