@@ -117,14 +117,15 @@ exports.registerUser = async (req, res) => {
     let user = await User.findOne({ 'local.email': tempEmail });
     const verified = false;
     const otpCreatedAt = Date();
-    if(user.local.phoneNumber===phoneNumber){
-      return res.status(400).json({ msg: 'phoneNumber already exists' });
-    }
-
+   
+    
     if (user) {
       return res.status(400).json({ msg: 'User already exists' });
     }
-
+    let userPhone = await User.findOne({ 'local.phoneNumber': phoneNumber });
+    if(userPhone){
+      return res.status(400).json({ msg: 'phoneNumber already exists' });
+    }
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
