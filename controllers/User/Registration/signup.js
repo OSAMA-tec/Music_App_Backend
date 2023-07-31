@@ -193,15 +193,16 @@ exports.verifyUser = async (req, res) => {
     }
 
     // Check if OTP has expired
-    const otpLifetime = 120; // OTP lifetime in seconds
-    const otpAgeInSeconds = Math.floor((Date.now() - new Date(user.local.otpCreatedAt)) / 1000);
-    if (otpAgeInSeconds > otpLifetime) {
-      user.local.tempNumber = null; // Clear the tempNumber field
-      user.local.otp = null; // Clear OTP
-      user.local.otpCreatedAt = null; // Clear OTP timestamp
-      await user.save();
-      return res.status(400).json({ msg: 'OTP has expired' });
-    }
+    // const otpLifetime = 120; // OTP lifetime in seconds
+    // const otpAgeInSeconds = Math.floor((Date.now() - new Date(user.local.otpCreatedAt)) / 1000);
+    // if (otpAgeInSeconds > otpLifetime) {
+    //   user.local.tempNumber = null; // Clear the tempNumber field
+    //   user.local.tempEmail = null; // Clear the tempNumber field
+    //   user.local.otp = null; // Clear OTP
+    //   user.local.otpCreatedAt = null; // Clear OTP timestamp
+    //   await user.save();
+    //   return res.status(400).json({ msg: 'OTP has expired' });
+    // }
 
     const check = await bcrypt.compare(otp.toString(), user.local.otp);
     if (check) {
