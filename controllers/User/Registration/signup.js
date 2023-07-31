@@ -199,21 +199,21 @@ exports.verifyUser = async (req, res) => {
       return res.status(400).json({ msg: 'User does not exist' });
     }
 
-    const timezone = 'Asia/Kolkata'; // Replace this with the desired timezone
+    // const timezone = 'Asia/Kolkata'; // Replace this with the desired timezone
 
-    // Check if OTP has expired
-    const otpLifetime = 60; // OTP lifetime in seconds
-    const otpCreatedAt = moment(user.local.otpCreatedAt).tz(timezone);
-    const currentTime = moment().tz(timezone);
-    const otpAgeInSeconds = currentTime.diff(otpCreatedAt, 'seconds');
-    if (otpAgeInSeconds > otpLifetime) {
-      user.local.tempNumber = null; // Clear the tempNumber field
-      user.local.tempEmail = null; // Clear the tempNumber field
-      user.local.otp = null; // Clear OTP
-      user.local.otpCreatedAt = null; // Clear OTP timestamp
-      await user.save();
-      return res.status(400).json({ msg: 'OTP has expired' });
-    }
+    // // Check if OTP has expired
+    // const otpLifetime = 60; // OTP lifetime in seconds
+    // const otpCreatedAt = moment(user.local.otpCreatedAt).tz(timezone);
+    // const currentTime = moment().tz(timezone);
+    // const otpAgeInSeconds = currentTime.diff(otpCreatedAt, 'seconds');
+    // if (otpAgeInSeconds > otpLifetime) {
+    //   user.local.tempNumber = null; // Clear the tempNumber field
+    //   user.local.tempEmail = null; // Clear the tempNumber field
+    //   user.local.otp = null; // Clear OTP
+    //   user.local.otpCreatedAt = null; // Clear OTP timestamp
+    //   await user.save();
+    //   return res.status(400).json({ msg: 'OTP has expired' });
+    // }
 
     const check = await bcrypt.compare(otp.toString(), user.local.otp);
     if (check) {
