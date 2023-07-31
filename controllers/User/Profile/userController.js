@@ -1,4 +1,4 @@
-const User = require('../../models/User');
+const User = require('../../../models/User');
 const bcrypt = require('bcryptjs');
 var SibApiV3Sdk = require('sib-api-v3-sdk');
 const getUser = async (req, res) => {

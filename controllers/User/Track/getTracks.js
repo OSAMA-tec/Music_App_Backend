@@ -1,5 +1,5 @@
-const Track = require('../../models/Track');
-const Artist = require('../../models/Artist');
+const Track = require('../../../models/Track');
+const Artist = require('../../../models/Artist');
 
 const getTracks = async (req, res) => {
     try {
@@ -12,6 +12,7 @@ const getTracks = async (req, res) => {
         // Create an array of track detail objects.
         const trackDetails = tracks.map((track, index) => {
             return {
+                trackid:track._id,
                 artistName: artists[index].name,
                 songTitle: track.title,
                 genre: track.genre,
@@ -38,7 +39,7 @@ const getTracks = async (req, res) => {
 const searchTrack = async (req, res) => {
     try {
         const Tracks = await Track.find().lean();
-        const searchName = req.params.name;
+        const searchName = req.params.trackId;
 
         if (!searchName) {
             console.error('Params not found');

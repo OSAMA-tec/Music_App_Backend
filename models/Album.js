@@ -14,6 +14,9 @@ const AlbumSchema = new mongoose.Schema({
         type: Date,
         required: true,
     },
+    picURL: {
+        type: String,
+    },
     genre: {
         type: String,
         required: true

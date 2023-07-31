@@ -1,17 +1,13 @@
-const express = require('express');
+// route file (e.g., artist.js)
+const express = require("express");
+
 const router = express.Router();
-const auth = require('../middleware/auth'); 
+const auth = require("../middleware/auth");
+const {putData,getData,upload} = require('../controllers/Artist/artistController');
 
-
-//EXPORTING ALL
-const {putData,getData} = require('../controllers/Artist/artistController');
-
-
-
-
-//  UPLOADING DATA and GETTING DATA
-router.put('/data', auth,putData);
+router.put("/update",auth, upload.single("pic"), putData);
 router.get('/data', auth,getData);
+
 
 
 module.exports = router;

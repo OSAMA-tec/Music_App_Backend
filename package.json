@@ -28,7 +28,9 @@
     "nodemailer": "^6.9.4",
     "passport": "^0.6.0",
     "passport-facebook": "^3.0.0",
+    "passport-google-oauth20": "^2.0.0",
     "sib-api-v3-sdk": "^8.5.0",
+    "twilio": "^4.14.1",
     "uuid": "^9.0.0"
   },
   "devDependencies": {

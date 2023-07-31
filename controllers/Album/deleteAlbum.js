@@ -3,7 +3,7 @@ const Album = require('../../models/Album');
 
 const deleteAlbum = async (req, res) => {
   const userId = req.user.id;
-  const title = req.body.name.toString();
+  const title = req.body.name;
 
   try {
     if (req.user.role !== 'artist') {

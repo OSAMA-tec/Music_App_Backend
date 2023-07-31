@@ -3,17 +3,24 @@ const mongoose = require('mongoose');
 const UserSchema = new mongoose.Schema({
     method: {
         type: String,
-        enum: ['local', 'facebook'],
+        enum: ['local', 'facebook', 'google'],
         required: true
     },
     local: {
         email: {
             type: String,
-            match: [/.+\@.+\..+/, 'Please enter a valid email address']
+            match: [/^\S+@\S+\.\S+$/, 'Please enter a valid email address']
+        },
+        phoneNumber: {
+            type: String,
+            maxLength: [13, 'Phone number should not exceed more than 13 digits'],
         },
         tempEmail: {
             type: String,
-            match: [/.+\@.+\..+/, 'Please enter a valid email address']
+            lowercase: true,
+        },
+        tempNumber: {
+            type: String,
         },
         password: {
             type: String,
@@ -34,14 +41,30 @@ const UserSchema = new mongoose.Schema({
         id: {
             type: String
         },
+        name: {
+            type: String
+        },
         email: {
             type: String,
-            match: [/.+\@.+\..+/, 'Please enter a valid email address']
+            match: [/^\S+@\S+\.\S+$/, 'Please enter a valid email address']
         }
     },
+    google: {
+        id: {
+            type: String
+        },
+        name: {
+            type: String
+        },
+        email: {
+            type: String,
+            match: [/^\S+@\S+\.\S+$/, 'Please enter a valid email address']
+        }
+    },
+
     role: {
         type: String,
-        enum: ['listener', 'artist', 'admin','manager'],
+        enum: ['listener', 'artist', 'admin', 'manager'],
         default: 'listener'
     },
     socialHandles: [String],

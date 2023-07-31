@@ -5,7 +5,7 @@ const ArtistSchema = new mongoose.Schema({
         type: String,
     },
     userId:{
-        type:String,
+        type: String,
     },
     bio: {
         type: String,
@@ -13,9 +13,15 @@ const ArtistSchema = new mongoose.Schema({
     genre: {
         type: String,
     },
+    picURL: {
+        type: String,
+    },
     albums: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Album'
+    }],
+    followers: [{
+        type: String,
     }],
 });
 
