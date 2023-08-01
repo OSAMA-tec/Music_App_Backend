@@ -7,7 +7,7 @@ const auth = require("../middleware/auth");
 const {putData,getData,upload} = require('../controllers/Artist/artistController');
 const {createMerch} = require('../controllers/Artist/createMerch');
 
-router.post('merch/create',auth, upload.single('image'), createMerch);
+router.post('/merch',auth, upload.single('image'), createMerch);
 router.put("/update",auth, upload.single("pic"), putData);
 router.get('/data', auth,getData);
 

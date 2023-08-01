@@ -72,4 +72,4 @@ const createMerch = async (req, res) => {
     }
   };
   
-  module.exports = { createMerch };
+  module.exports = { createMerch };createMerch
