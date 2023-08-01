@@ -21,6 +21,9 @@ const TrackSchema = new mongoose.Schema({
     composer: {
 		type: String,
 	},
+    lyrics: {
+		type: String,
+	},
     coverImage: {
 		type: String,
 		required: true,
