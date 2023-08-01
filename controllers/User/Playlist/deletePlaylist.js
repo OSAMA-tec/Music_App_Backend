@@ -1,15 +1,15 @@
-const User = require('../../models/User');
-const Playlist = require('../../models/Playlist');
+const User = require('../../../models/User');
+const Playlist = require('../../../models/Playlist');
 
 const deletePlaylist = async (req, res) => {
   const userId = req.user.id;
-  const PlayList = req.body.playlist;
+  const playlistId = req.body.playlistId;
 
   // Check for missing input data
-  if (!PlayList) {
+  if (!playlistId) {
     return res.status(400).json({
       success: false,
-      message: 'Missing required fields: Playlist name ',
+      message: 'Missing required field: playlistId',
     });
   }
 
@@ -21,12 +21,25 @@ const deletePlaylist = async (req, res) => {
         message: 'No User Found',
       });
     }
-    const playlist=await Playlist.deleteOne({name:PlayList});
-    playlist.save();
-    return res.status(200).json({
-        success: true,
-        message: 'Deleted Successfull',
+
+    const playlist = await Playlist.findOneAndDelete({ _id: playlistId, user: userId });
+
+    if (!playlist) {
+      return res.status(404).json({
+        success: false,
+        message: 'Playlist not found or not owned by the user',
       });
+    }
+
+    await User.updateOne(
+      { _id: userId },
+      { $pull: { playlists: playlistId } }
+    );
+
+    return res.status(200).json({
+      success: true,
+      message: 'Playlist deleted successfully',
+    });
   } catch (error) {
     console.error(error);
 
@@ -40,7 +53,7 @@ const deletePlaylist = async (req, res) => {
 
     return res.status(500).json({
       success: false,
-      message: 'An error occurred while updating the playlist',
+      message: 'An error occurred while deleting the playlist',
     });
   }
 };

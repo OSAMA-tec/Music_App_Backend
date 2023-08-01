@@ -69,7 +69,8 @@ const UserSchema = new mongoose.Schema({
     },
     socialHandles: [String],
     favorites: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Track' }],
-    playlists: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Playlist' }]
+    playlists: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Playlist' }],
+    albums: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Album' }]
 });
 
 module.exports = mongoose.model('User', UserSchema);

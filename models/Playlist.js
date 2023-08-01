@@ -13,6 +13,9 @@ const PlaylistSchema = new mongoose.Schema({
     description: {
         type: String,
     },
+    picURL: {
+        type: String,
+    },
     likes: {
 		type: [String],
 		of: Number,

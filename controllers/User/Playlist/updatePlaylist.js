@@ -1,17 +1,17 @@
-const User = require('../../models/User');
-const Playlist = require('../../models/Playlist');
-const Track = require('../../models/Track');
+const User = require('../../../models/User');
+const Playlist = require('../../../models/Playlist');
+const Track = require('../../../models/Track');
 
 const updatePlaylist = async (req, res) => {
   const userId = req.user.id;
-  const name = req.body.name;
-  const PlayList = req.body.playlist;
+  const trackId = req.body.trackId;
+  const PlayListID = req.body.playlistId;
 
   // Check for missing input data
-  if (!PlayList || !name) {
+  if (!playlistId || !trackId) {
     return res.status(400).json({
       success: false,
-      message: 'Missing required fields: Playlist name and Song name',
+      message: 'Missing required fields: Playlist Id and Song ID',
     });
   }
 
@@ -23,14 +23,14 @@ const updatePlaylist = async (req, res) => {
         message: 'No User Found',
       });
     }
-    const track = await Track.findOne({ title: name });
+    const track = await Track.findById( trackId );
     if (!track) {
       return res.status(400).json({
         success: false,
         message: 'Track not found',
       });
     }
-    const playlist = await Playlist.findOne({ name: PlayList });
+    const playlist = await Playlist.findById(PlayListID );
     if (!playlist) {
       return res.status(400).json({
         success: false,

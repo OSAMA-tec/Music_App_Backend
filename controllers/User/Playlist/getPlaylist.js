@@ -1,10 +1,9 @@
-const User = require('../../models/User');
-const Playlist = require('../../models/Playlist');
+const User = require('../../../models/User');
+const Playlist = require('../../../models/Playlist');
 
 const getPlaylist = async (req, res) => {
   const userId = req.user.id;
-  const PlayList = req.body.name;
-  console.log(PlayList)
+  const PlayListId = req.body.PlayListId;
   // Check for missing input data
   if (!PlayList) {
     return res.status(400).json({
@@ -21,7 +20,7 @@ const getPlaylist = async (req, res) => {
         message: 'No User Found',
       });
     }
-    const playlist = await Playlist.findOne({name: PlayList}).populate({
+    const playlist = await Playlist.findById(PlayListId).populate({
         path: 'user',
         select: 'local.email',
       })

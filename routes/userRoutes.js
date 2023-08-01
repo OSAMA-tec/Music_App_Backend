@@ -2,6 +2,9 @@ const express = require('express');
 const router = express.Router();
 const auth = require('../middleware/auth'); 
 
+const multer = require('multer');
+const storage = multer.memoryStorage();
+const upload = multer({ storage: storage });
 
 //EXPORTING ALL
 const userController = require('../controllers/User/Registration/signup');
@@ -14,7 +17,12 @@ const {getAlbum,specificAlbum} = require('../controllers/User/Album/getAlbum');
 const {likeAlbum} = require('../controllers/User/Album/likeAlbum');
 const {getTracks,searchTrack,specificTrack} = require('../controllers/User/Track/getTracks');
 const {likeTrack} = require('../controllers/User/Track/likeTrack');
+const {Library} = require('../controllers/User/Library/library');
 
+const {createPlaylist} = require('../controllers/User/Playlist/createPlaylist');
+const {updatePlaylist} = require('../controllers/User/Playlist/updatePlaylist');
+const {deletePlaylist} = require('../controllers/User/Playlist/deletePlaylist');
+const {getPlaylist,getAllPlaylist} = require('../controllers/User/Playlist/getPlaylist');
 
 
 
@@ -63,4 +71,18 @@ router.get('/tracks', auth,getTracks);
 router.get('/tracks/search', auth,searchTrack);
 router.get('/specific/tracks', auth,specificTrack);
 router.put('/tracks/like', auth,likeTrack);
+
+
+//Library Related
+router.get('/library', auth,Library);
+
+
+
+//PlayList Related
+router.post('/createPlaylist',auth, upload.single('image'), createPlaylist);
+router.put('/playlist/:name', auth,updatePlaylist);
+router.delete('/playlist/', auth,deletePlaylist);
+router.get('/playlist', auth,getPlaylist);
+router.get('/playlist/All', auth,getAllPlaylist);
+
 module.exports = router;
