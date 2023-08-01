@@ -11,6 +11,9 @@ const UserSchema = new mongoose.Schema({
             type: String,
             match: [/^\S+@\S+\.\S+$/, 'Please enter a valid email address']
         },
+        name: {
+            type: String,
+        },
         phoneNumber: {
             type: String,
             maxLength: [13, 'Phone number should not exceed more than 13 digits'],
@@ -21,6 +24,9 @@ const UserSchema = new mongoose.Schema({
         },
         tempNumber: {
             type: String,
+        },
+        picURL:{
+            type:String,
         },
         password: {
             type: String,

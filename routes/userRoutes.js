@@ -10,6 +10,7 @@ const upload = multer({ storage: storage });
 const userController = require('../controllers/User/Registration/signup');
 const userControllerLogin = require('../controllers/User/Registration/login');
 const {getUser,updateUser,deleteUser}=require("../controllers/User/Profile/userController")
+const {uploadProfilePicture}=require("../controllers/User/Profile/updatePic")
 const {recoverPassword}=require("../controllers/User/Registration/recoverPassword")
 const {topArtist,getSpecific} = require('../controllers/User/Artist/topArtist');
 const {follow} = require('../controllers/User/Artist/follow');
@@ -41,10 +42,12 @@ router.post('/login/verify',userControllerLogin.verifyUser);
 router.post('/recover-password',recoverPassword);
 
 
+
 //  DATA GETTING and Delete
 router.get('/user', auth,getUser)
 router.put('/user', auth,updateUser)
 router.delete('/user', auth,deleteUser)
+router.post('/uploadProfilePicture',auth, upload.single('image'), uploadProfilePicture);
 
 
 

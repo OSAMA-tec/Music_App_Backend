@@ -148,7 +148,6 @@ exports.registerUser = async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, salt);
 
     const otp = Math.floor(100000 + Math.random() * 900000);
-    console.log(otp);
     // const otpHash = await bcrypt.hash(otp.toString(), salt);
 
     user = new User({
