@@ -18,6 +18,7 @@ const updateAlbum = async (req, res) => {
     const artist = await Artist.findOne({ userId: userId });
     const track = await Track.findOne({ title: songName });
     const album = await Album.findOne({ title: albumName });
+  
 
     if (!artist || !track || !album) {
       return res.status(404).json({

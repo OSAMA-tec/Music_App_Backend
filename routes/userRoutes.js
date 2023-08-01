@@ -51,8 +51,7 @@ router.put('/follow', auth,follow);
 
 //Album Related
 router.get('/artist/album', auth,getAlbum)
-router.get('/artist/album', auth,specificAlbum)
-router.get('/artist/album', auth,specificAlbum)
+router.get('/artist/specific/album', auth,specificAlbum)
 router.put('/artist/album/like', auth,likeAlbum)
 
 
