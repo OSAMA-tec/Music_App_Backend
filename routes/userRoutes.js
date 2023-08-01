@@ -44,7 +44,7 @@ router.delete('/user', auth,deleteUser)
 
 //Artist Related
 router.get('/top-artists', auth,topArtist);
-router.get('/top-artists', auth,getSpecific);
+router.get('/top-artists/specific', auth,getSpecific);
 router.put('/follow', auth,follow);
 
 
