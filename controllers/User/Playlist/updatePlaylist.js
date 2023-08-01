@@ -8,7 +8,7 @@ const updatePlaylist = async (req, res) => {
   const PlayListID = req.body.playlistId;
 
   // Check for missing input data
-  if (!playlistId || !trackId) {
+  if (!PlayListID || !trackId) {
     return res.status(400).json({
       success: false,
       message: 'Missing required fields: Playlist Id and Song ID',
