@@ -18,6 +18,9 @@ const TrackSchema = new mongoose.Schema({
 		type: [String],
 		of: Number,
 	},
+    composer: {
+		type: String,
+	},
     coverImage: {
 		type: String,
 		required: true,
