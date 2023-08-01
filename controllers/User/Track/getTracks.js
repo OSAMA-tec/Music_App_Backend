@@ -64,6 +64,7 @@ const searchTrack = async (req, res) => {
                 audio: track.audioFile,
                 coverImage: track.coverImage,
                 album: track.album,
+                TrackId:track._id,
             };
         });
 
