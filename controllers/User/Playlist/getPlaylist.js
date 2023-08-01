@@ -5,10 +5,10 @@ const getPlaylist = async (req, res) => {
   const userId = req.user.id;
   const PlayListId = req.body.PlayListId;
   // Check for missing input data
-  if (!PlayList) {
+  if (!PlayListId) {
     return res.status(400).json({
       success: false,
-      message: 'Missing required fields: Playlist name ',
+      message: 'Missing required fields: Playlist id ',
     });
   }
 
