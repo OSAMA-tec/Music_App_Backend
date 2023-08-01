@@ -15,7 +15,7 @@ const createMerch = async (req, res) => {
     }
   
     try {
-      const artist = await Artist.findById(artistId);
+      const artist = await Artist.findOne({userId:artistId});
       if (!artist) {
         return res.status(400).json({
           success: false,
