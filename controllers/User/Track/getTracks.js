@@ -113,6 +113,7 @@ const specificTrack = async (req, res) => {
       songId: track._id,
       songTitle: track.title,
       audio: track.audioFile,
+      lyrics: track.lyrics,
       composer:track.composer,
       coverImage: track.coverImage,
       artistName: track.artist.name,
