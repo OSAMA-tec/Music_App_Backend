@@ -80,7 +80,7 @@ router.get('/library', auth,Library);
 
 //PlayList Related
 router.post('/createPlaylist',auth, upload.single('image'), createPlaylist);
-router.put('/playlist/:name', auth,updatePlaylist);
+router.put('/playlist', auth,updatePlaylist);
 router.delete('/playlist/', auth,deletePlaylist);
 router.get('/playlist', auth,getPlaylist);
 router.get('/playlist/All', auth,getAllPlaylist);
