@@ -1,5 +1,5 @@
-const Merchandise = require('../../../models/Merchandise');
-const Artist = require('../../../models/Artist');
+const Merchandise = require('../../models/Merchandise');
+const Artist = require('../../models/Artist');
 const { bucket, admin } = require('../../config/firbaseConfig');
 const multer = require('multer');
 const createMerch = async (req, res) => {
