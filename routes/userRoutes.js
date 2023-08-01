@@ -61,6 +61,6 @@ router.put('/artist/album/like', auth,likeAlbum)
 //Track Related
 router.get('/tracks', auth,getTracks);
 router.get('/tracks/search', auth,searchTrack);
-router.get('/tracks', auth,specificTrack);
+router.get('/specific/tracks', auth,specificTrack);
 router.put('/tracks/like', auth,likeTrack);
 module.exports = router;
