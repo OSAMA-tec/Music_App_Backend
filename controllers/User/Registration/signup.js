@@ -108,47 +108,45 @@ exports.googleAuthCallback = function (req, res, next) {
     });
   })(req, res, next);
 };
-
-// ... (remaining code remains unchanged)
 exports.registerUser = async (req, res) => {
-  const { password, role, phoneNumber } = req.body;
+  const { password, role, phoneNumber, name } = req.body;
   const tempEmail = req.body.email;
   let email = '';
-
+  if(!phoneNumber || !name || !tempEmail){
+    return res.status(400).json({ msg: 'Phone Number or Name or Email required' });
+  }
   try {
     let userE = await User.findOne({ 'local.tempEmail': tempEmail });
     let userEmail = await User.deleteMany({ 'local.tempEmail': tempEmail });
 
     let userP = await User.findOne({ 'local.tempPhone': tempEmail });
     let userPh = await User.deleteMany({ 'local.tempPhone': tempEmail });
-    if(userE){
-      await Artist.deleteMany({userId:userE._id})
+    if (userE) {
+      await Artist.deleteMany({ userId: userE._id });
     }
-    if(userP){
-      await Artist.deleteMany({userId:userP._id})
+    if (userP) {
+      await Artist.deleteMany({ userId: userP._id });
     }
     let user = await User.findOne({ 'local.email': tempEmail });
     const verified = false;
+
     // Set the timezone you want to use
     const timezone = 'Asia/Kolkata'; // Replace this with the desired timezone
 
     // Use moment-timezone to set the otpCreatedAt value
     const otpCreatedAt = moment().tz(timezone).toDate();
-    // const otpCreatedAt = Date();
-
 
     if (user) {
       return res.status(400).json({ msg: 'User already exists' });
     }
     let userPhone = await User.findOne({ 'local.phoneNumber': phoneNumber });
     if (userPhone) {
-      return res.status(400).json({ msg: 'phoneNumber already exists' });
+      return res.status(400).json({ msg: 'Phone number already exists' });
     }
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
     const otp = Math.floor(100000 + Math.random() * 900000);
-    // const otpHash = await bcrypt.hash(otp.toString(), salt);
 
     user = new User({
       method: 'local',
@@ -161,6 +159,7 @@ exports.registerUser = async (req, res) => {
         otpCreatedAt,
         tempEmail,
         tempNumber: phoneNumber,
+        name: name,
       },
     });
 
@@ -186,15 +185,25 @@ exports.registerUser = async (req, res) => {
     }
 
     // Send OTP via SMS
-    twilioClient.messages.create({
-      body: `Your OTP for MUSIC APP is: ${otp}`,
-      from: process.env.TWILIO_PHONE_NUMBER,
-      to: phoneNumber
-    })
-      .then(() => { console.log('OTP sent via SMS') })
-      .catch((error) => { console.error(error); })
-
-    res.json({ message: 'Registered successfully. Please verify your phone number.' });
+    twilioClient.messages
+      .create({
+        body: `Your OTP for MUSIC APP is: ${otp}`,
+        from: process.env.TWILIO_PHONE_NUMBER,
+        to: phoneNumber,
+      })
+      .then(() => {
+        console.log('OTP sent via SMS');
+        res.json({
+          message:
+            'Registered successfully. Please verify your phone number.',
+        });
+      })
+      .catch((error) => {
+        console.error(error);
+        res.status(500).json({
+          msg: 'Failed to send OTP via SMS. Please try again later.',
+        });
+      });
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');
