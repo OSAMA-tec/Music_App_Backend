@@ -73,6 +73,9 @@ const UserSchema = new mongoose.Schema({
         enum: ['listener', 'artist', 'admin', 'manager'],
         default: 'listener'
     },
+    RecentTrack: [{
+            type: String,
+        }],
     socialHandles: [String],
     favorites: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Track' }],
     playlists: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Playlist' }],

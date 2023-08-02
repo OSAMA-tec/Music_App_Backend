@@ -18,6 +18,7 @@ const {getAlbum,specificAlbum} = require('../controllers/User/Album/getAlbum');
 const {likeAlbum} = require('../controllers/User/Album/likeAlbum');
 const {getTracks,searchTrack,specificTrack} = require('../controllers/User/Track/getTracks');
 const {likeTrack} = require('../controllers/User/Track/likeTrack');
+const {recentTrack,addTrack} = require('../controllers/User/Track/recentTrack');
 const {Library} = require('../controllers/User/Library/library');
 
 const {createPlaylist} = require('../controllers/User/Playlist/createPlaylist');
@@ -77,6 +78,8 @@ router.get('/tracks', auth,getTracks);
 router.get('/tracks/search', auth,searchTrack);
 router.get('/specific/tracks', auth,specificTrack);
 router.put('/tracks/like', auth,likeTrack);
+router.get('/recentTracks', auth,recentTrack);
+router.post('/addTracks', auth,addTrack);
 
 
 //Library Related
