@@ -21,7 +21,7 @@ const addTrack= async (req, res) => {
   
       await user.save();
   
-      res.status(200).json({ message: 'Track ID added successfully', user });
+      res.status(200).json({ message: 'Track ID added successfully' });
     } catch (error) {
       res.status(500).json({ error: 'An error occurred while adding the track ID' });
     }
