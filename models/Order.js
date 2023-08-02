@@ -18,7 +18,7 @@ const OrderSchema = new mongoose.Schema({
     },
     merch: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'Merch',
+      ref: 'Merchandise',
       required: true,
     },
     name: {

@@ -31,6 +31,7 @@
     "passport-facebook": "^3.0.0",
     "passport-google-oauth20": "^2.0.0",
     "sib-api-v3-sdk": "^8.5.0",
+    "stripe": "^12.16.0",
     "twilio": "^4.14.1",
     "uuid": "^9.0.0"
   },

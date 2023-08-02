@@ -24,6 +24,7 @@ const {createPlaylist} = require('../controllers/User/Playlist/createPlaylist');
 const {updatePlaylist} = require('../controllers/User/Playlist/updatePlaylist');
 const {deletePlaylist} = require('../controllers/User/Playlist/deletePlaylist');
 const {getPlaylist,getAllPlaylist} = require('../controllers/User/Playlist/getPlaylist');
+const {getMerch} = require('../controllers/User/Order/getMerch');
 
 
 
@@ -87,5 +88,10 @@ router.put('/playlist', auth,updatePlaylist);
 router.delete('/playlist/', auth,deletePlaylist);
 router.get('/playlist', auth,getPlaylist);
 router.get('/playlist/All', auth,getAllPlaylist);
+
+
+//Merch Data
+router.get('/merch', auth,getMerch);
+
 
 module.exports = router;
