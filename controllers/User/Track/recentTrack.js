@@ -28,7 +28,7 @@ const addTrack= async (req, res) => {
   };
   
   const recentTrack= async (req, res) => {
-    const { userId } = req.user.id;
+    const userId  = req.user.id;
     try {
       const user = await User.findById(userId);
   
