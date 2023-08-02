@@ -1,7 +1,7 @@
 const Comment = require('../../../models/Comment');
 const Track = require('../../../models/Track');
 const getComments = async (req, res) => {
-    const { trackId } = req.query;
+    const { trackId } = req.body;
   
     // Check for missing input data
     if (!trackId) {
