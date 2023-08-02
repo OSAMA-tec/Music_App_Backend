@@ -25,7 +25,7 @@ const {updatePlaylist} = require('../controllers/User/Playlist/updatePlaylist');
 const {deletePlaylist} = require('../controllers/User/Playlist/deletePlaylist');
 const {getPlaylist,getAllPlaylist} = require('../controllers/User/Playlist/getPlaylist');
 const {getMerch} = require('../controllers/User/Order/getMerch');
-const {createComment} = require('../controllers/User/Comment/createComment');
+const {addComment} = require('../controllers/User/Comment/createComment');
 const {getComments} = require('../controllers/User/Comment/getComment');
 
 
@@ -97,7 +97,7 @@ router.get('/merch', auth,getMerch);
 
 
 //Comment
-router.post('/comment', auth,createComment);
+router.post('/comment', auth,addComment);
 router.get('/comment', auth,getComments);
 
 
