@@ -73,8 +73,7 @@ passport.use(new GoogleStrategy({
   }
 ));
 
-// ... (remaining code remains unchanged)
-// ... (previous code remains unchanged)
+
 
 exports.facebookAuth = passport.authenticate('facebook', { scope: ['email'] });
 exports.googleAuth = passport.authenticate('google', { scope: ['profile', 'email'] });
@@ -131,8 +130,7 @@ exports.registerUser = async (req, res) => {
     const verified = false;
 
     // Set the timezone you want to use
-    const timezone = 'Asia/Kolkata'; // Replace this with the desired timezone
-
+    const timezone = 'Asia/Kolkata'; 
     // Use moment-timezone to set the otpCreatedAt value
     const otpCreatedAt = moment().tz(timezone).toDate();
 
