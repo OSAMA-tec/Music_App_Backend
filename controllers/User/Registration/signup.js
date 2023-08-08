@@ -212,9 +212,9 @@ exports.verifyUser = async (req, res) => {
   const { phoneNumber, otp } = req.body;
 
   try {
-    let user = await User.findOne({ 'local.tempNumber': phoneNumber });
+    var user = await User.findOne({ 'local.tempNumber': phoneNumber });
     if (!user) {
-      let user = await User.findOne({ 'local.phoneNumber': phoneNumber });
+       user = await User.findOne({ 'local.phoneNumber': phoneNumber });
     }
     else{
       return res.status(400).json({ msg: 'User does not exist' });
