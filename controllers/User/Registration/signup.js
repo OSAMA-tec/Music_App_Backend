@@ -214,10 +214,11 @@ exports.verifyUser = async (req, res) => {
   try {
     let user = await User.findOne({ 'local.tempNumber': phoneNumber });
     if (!user) {
+      let user = await User.findOne({ 'local.phoneNumber': phoneNumber });
+    }
+    else{
       return res.status(400).json({ msg: 'User does not exist' });
     }
-    console.log(user.local.otp);
-    console.log(otp);
     if (otp===user.local.otp) {
       user.local.email = user.local.tempEmail; // Update main email
       user.local.tempEmail = null; // Clear the tempEmail field
