@@ -129,11 +129,6 @@ exports.registerUser = async (req, res) => {
     let user = await User.findOne({ 'local.email': tempEmail });
     const verified = false;
 
-    // Set the timezone you want to use
-    const timezone = 'Asia/Kolkata'; 
-    // Use moment-timezone to set the otpCreatedAt value
-    const otpCreatedAt = moment().tz(timezone).toDate();
-
     if (user) {
       return res.status(400).json({ msg: 'User already exists' });
     }
@@ -154,7 +149,6 @@ exports.registerUser = async (req, res) => {
         email,
         password: hashedPassword,
         otp: otp,
-        otpCreatedAt,
         tempEmail,
         tempNumber: phoneNumber,
         name: name,
